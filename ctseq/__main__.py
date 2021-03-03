@@ -81,6 +81,7 @@ def main():
     parser_align.add_argument('--forwardAdapter', help='adapter sequence to remove from FORWARD reads (default=AGTGTGGGAGGGTAGTTGGTGTT)', default='AGTGTGGGAGGGTAGTTGGTGTT')
     parser_align.add_argument('--reverseAdapter', help='adapter sequence to remove from REVERSE reads (default=ACTCCCCACCTTCCTCATTCTCTAAGACGGTGT)', default='ACTCCCCACCTTCCTCATTCTCTAAGACGGTGT')
     parser_align.add_argument('-c','--cutadaptCores', help='number of cores to use with Cutadapt. Default=1. Highly recommended to run with more than 1 core, try starting with 18 cores', default=1, type=int)
+    parser_align.add_argument('--nextSeq', help='data is from an Illumina Sequencer using two-color chemistry to encode the four bases (NextSeq, NovaSeq)',default=True, dest='nextSeq',action='store_true')
     parser_align.add_argument('-b','--bismarkCores', help='number of cores to use to align with Bismark. Default=1. Highly recommended to run with more than 1 core, try starting with 6 cores', default=1, type=int)
     parser_align.add_argument('--readsPerFile', help='number of reads to analyze per fastq file (should only adjust this if you think you are too big of a file through bismark). Default=5000000 (5 million)', default=5000000, type=int)
     parser_align.set_defaults(func=run_subcommand)
@@ -123,6 +124,7 @@ def main():
     parser_analyze.add_argument('--forwardAdapter', help='adapter sequence to remove from FORWARD reads (default=AGTGTGGGAGGGTAGTTGGTGTT)', default='AGTGTGGGAGGGTAGTTGGTGTT')
     parser_analyze.add_argument('--reverseAdapter', help='adapter sequence to remove from REVERSE reads (default=ACTCCCCACCTTCCTCATTCTCTAAGACGGTGT)', default='ACTCCCCACCTTCCTCATTCTCTAAGACGGTGT')
     parser_analyze.add_argument('--cutadaptCores', help='number of cores to use with Cutadapt. Default=1. Highly recommended to run with more than 1 core, try starting with 18 cores', default=1, type=int)
+    parser_analyze.add_argument('--nextSeq', help='data is from an Illumina Sequencer using two-color chemistry to encode the four bases (NextSeq, NovaSeq)',default=True, dest='nextSeq',action='store_true')
     parser_analyze.add_argument('--bismarkCores', help='number of cores to use to align with Bismark. Default=1. Highly recommended to run with more than 1 core, try starting with 6 cores', default=1, type=int)
     parser_analyze.add_argument('--readsPerFile', help='number of reads to analyze per fastq file (should only adjust this if you think you are too big of a file through bismark). Default=5000000 (5 million)', default=5000000, type=int)
 
@@ -168,6 +170,7 @@ def main():
         args.func(args)
     elif len(sys.argv) > 1 and sys.argv[1]!='plot': # can't run any other subcommands without any args
         args = parser.parse_args()
+        print(args)
         args.func(args)
     else:
         # if no subcommand is specified, print help menu

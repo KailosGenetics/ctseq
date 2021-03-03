@@ -1,0 +1,16 @@
+if [ -z "$1" ]; then
+    echo "Usage: publish <lowercase env-id>"
+    exit
+else
+    MY_ENV=$1
+fi
+SHORT_NAME=ctseq
+NAME=kailos/$SHORT_NAME
+ACCOUNT=107136073690.dkr.ecr.us-east-1.amazonaws.com
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ACCOUNT
+
+docker build -t $NAME .
+docker tag $NAME:latest $ACCOUNT/$NAME:$MY_ENV
+docker push $ACCOUNT/$NAME:$MY_ENV
+

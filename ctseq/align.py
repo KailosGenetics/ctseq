@@ -19,6 +19,7 @@ def cutAdapters(args,fExt,rExt,newForExt,newRevExt):
     print('**************\n')
 
     cutadaptCores=str(args.cutadaptCores)
+    nextSeq = '--nextseq-trim' if args.nextSeq else ''
     # loop through fastq files
     allForwardFiles=utilities.naturalSort(glob.glob('*'+fExt))
 
@@ -35,6 +36,7 @@ def cutAdapters(args,fExt,rExt,newForExt,newRevExt):
         # print(reverseTrimmedFile,reverseFile)
         # print(args.forwardAdapter,args.reverseAdapter)
         cutadaptCmd=['cutadapt','-a',args.forwardAdapter,'-A',args.reverseAdapter,'--cores',cutadaptCores,'--minimum-length',str(10),'-o',forwardTrimmedFile,'-p',reverseTrimmedFile,forwardFile,reverseFile]
+        print(cutadaptCmd)
 
 
         externalProcess = subprocess.Popen(cutadaptCmd)

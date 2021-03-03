@@ -1,4 +1,4 @@
-FROM continuumio/miniconda3
+FROM continuumio/miniconda3:4.8.2
 
 RUN conda create -n ctseqEnv python=3.7 && \
     echo "source activate ctseqEnv" > ~/.bashrc && \
@@ -12,10 +12,9 @@ RUN conda create -n ctseqEnv python=3.7 && \
     conda install -c conda-forge r-base=3.5.1 && \
     conda install -c r r-ggplot2=3.0.0 && \
     conda install -c r r-reshape=0.8.7 && \
-    conda install -c conda-forge r-pheatmap=1.0.12 && \
-    apt-get install git && \
-    git clone https://github.com/ryanhmiller/ctseq.git
+    conda install -c conda-forge r-pheatmap=1.0.12
 
+ADD . /ctseq
 
 WORKDIR /ctseq
 RUN python setup.py install
